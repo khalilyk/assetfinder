@@ -9,13 +9,15 @@ const audiences = [
     variant: "builder" as const,
     emoji: "🏗️",
     query: "construction worker hard hat site",
+    href: "/solutions/builders",
   },
   {
     title: "Fire contractors",
-    desc: "Deliver compliant installs and maintenance—every time.",
+    desc: "Deliver compliant installs and maintenance, every time.",
     variant: "contractor" as const,
     emoji: "🧯",
     query: "firefighter equipment maintenance",
+    href: "/solutions/fire-contractors",
   },
   {
     title: "Certifiers",
@@ -23,6 +25,7 @@ const audiences = [
     variant: "certifier" as const,
     emoji: "📋",
     query: "building inspector clipboard safety",
+    href: "/solutions/certifiers",
   },
 ];
 
@@ -40,7 +43,7 @@ export async function BuiltFor() {
           {audiences.map((a, i) => (
             <Reveal key={a.title} delay={i * 100} className="h-full">
               <a
-                href="#"
+                href={a.href}
                 className="group relative flex aspect-[4/5] h-full overflow-hidden rounded-2xl transition-transform duration-300 hover:-translate-y-1"
               >
                 <StockPhoto
@@ -62,7 +65,7 @@ export async function BuiltFor() {
                   <p className="mt-1 text-sm text-white/70">{a.desc}</p>
                   <span className="mt-3 inline-flex items-center gap-1 text-sm font-semibold text-brand-lime">
                     Learn more
-                    <IconArrowRight className="h-3.5 w-3.5 transition-transform duration-200 group-hover:translate-x-1" />
+                    <IconArrowRight className="h-3.5 w-3.5 transition-transform duration-200 group-hover:translate-x-1 group-hover:rotate-45" />
                   </span>
                 </div>
               </a>

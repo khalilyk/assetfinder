@@ -29,8 +29,9 @@ export async function HowItWorks() {
                 alt="Technician scanning an asset QR tag"
                 className="absolute inset-0 transition-transform duration-500 group-hover:scale-105"
               />
+              <div className="animate-laser-scan pointer-events-none absolute inset-x-0 h-1 -translate-y-1/2 bg-gradient-to-b from-transparent via-brand-lime to-transparent shadow-[0_0_10px_2px_rgba(200,230,0,0.7)]" />
               <div className="absolute inset-x-3 bottom-3 flex items-center gap-2 rounded-lg bg-white/95 px-3 py-2 text-xs font-medium text-brand-dark shadow">
-                <span className="h-3.5 w-3.5 animate-pulse rounded-sm border-2 border-brand-lime-dark" />
+                <span className="h-3.5 w-3.5 animate-spin rounded-full border-2 border-brand-lime-dark border-t-transparent" />
                 Scanning…
                 <IconArrowRight className="ml-auto h-3.5 w-3.5 text-black/40" />
               </div>
@@ -71,7 +72,7 @@ export async function HowItWorks() {
                 className="group/link mt-auto flex items-center gap-1 pt-3 font-semibold text-brand-dark"
               >
                 View full record
-                <IconArrowRight className="h-3 w-3 transition-transform duration-200 group-hover/link:translate-x-0.5" />
+                <IconArrowRight className="h-3 w-3 transition-transform duration-200 group-hover/link:translate-x-0.5 group-hover/link:rotate-45" />
               </a>
             </div>
           </Step>
@@ -86,7 +87,7 @@ export async function HowItWorks() {
               <p className="text-black/40">Next action</p>
               <p className="mt-1 text-sm font-semibold text-brand-dark">Annual inspection</p>
               <p className="text-black/40">Due 12 May 2026</p>
-              <button className="mt-3 w-full rounded-full bg-brand-lime px-3 py-2 text-xs font-semibold text-brand-dark transition duration-200 hover:scale-[1.02] hover:bg-brand-lime-dark active:scale-95">
+              <button className="btn-glow mt-3 w-full rounded-full bg-brand-lime px-3 py-2 text-xs font-semibold text-brand-dark transition duration-200 hover:scale-[1.02] hover:bg-brand-lime-dark active:scale-95">
                 Create work order
               </button>
               <div className="mt-auto border-t border-black/10 pt-3">

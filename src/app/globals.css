@@ -69,6 +69,39 @@ body {
   animation: float 5s ease-in-out infinite;
 }
 
+@keyframes modal-in {
+  from {
+    opacity: 0;
+    transform: scale(0.96) translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+.animate-fade-in {
+  animation: fade-in 0.2s ease-out forwards;
+}
+
+.animate-modal-in {
+  animation: modal-in 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes icon-float {
+  0%,
+  100% {
+    transform: translateY(0) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-5px) rotate(-6deg);
+  }
+}
+
+.animate-icon-float {
+  animation: icon-float 3s ease-in-out infinite;
+}
+
 @keyframes hero-zoom {
   from {
     transform: scale(1);
@@ -82,12 +115,132 @@ body {
   animation: hero-zoom 20s ease-out forwards;
 }
 
+@keyframes glow-pulse {
+  0%,
+  100% {
+    box-shadow: 0 0 6px 0 rgba(255, 255, 255, 0.35);
+  }
+  50% {
+    box-shadow: 0 0 20px 5px rgba(255, 255, 255, 0.65);
+  }
+}
+
+.btn-glow {
+  animation: glow-pulse 2.4s ease-in-out infinite;
+}
+
+@keyframes glow-pulse-green {
+  0%,
+  100% {
+    box-shadow: 0 0 6px 0 rgba(200, 230, 0, 0.35);
+  }
+  50% {
+    box-shadow: 0 0 20px 5px rgba(200, 230, 0, 0.65);
+  }
+}
+
+.btn-glow-green {
+  animation: glow-pulse-green 2.4s ease-in-out infinite;
+}
+
+@keyframes laser-scan {
+  0% {
+    top: 4%;
+  }
+  100% {
+    top: 96%;
+  }
+}
+
+.animate-laser-scan {
+  animation: laser-scan 2.2s ease-in-out infinite alternate;
+}
+
+@keyframes qr-jitter-a {
+  0%,
+  100% {
+    transform: translate(0, 0);
+  }
+  25% {
+    transform: translate(3px, -3px);
+  }
+  50% {
+    transform: translate(-2px, 2px);
+  }
+  75% {
+    transform: translate(2px, 3px);
+  }
+}
+
+@keyframes qr-jitter-b {
+  0%,
+  100% {
+    transform: translate(0, 0);
+  }
+  25% {
+    transform: translate(-3px, 2px);
+  }
+  50% {
+    transform: translate(3px, -2px);
+  }
+  75% {
+    transform: translate(-2px, -3px);
+  }
+}
+
+.hover-scramble:hover > * {
+  animation: qr-jitter-a 0.5s steps(1, end) infinite;
+}
+
+.hover-scramble:hover > *:nth-child(2) {
+  animation-name: qr-jitter-b;
+  animation-delay: 0.08s;
+}
+
+.hover-scramble:hover > *:nth-child(3) {
+  animation-name: qr-jitter-b;
+  animation-delay: 0.16s;
+}
+
+.hover-scramble:hover > *:nth-child(4) {
+  animation-name: qr-jitter-a;
+  animation-delay: 0.24s;
+}
+
+@keyframes wave-flow {
+  to {
+    stroke-dashoffset: -18;
+  }
+}
+
+.animate-wave-flow {
+  animation: wave-flow 2.4s linear infinite;
+}
+
 @media (prefers-reduced-motion: reduce) {
+  .hover-scramble:hover > * {
+    animation: none !important;
+  }
   .reveal {
     opacity: 1;
     animation: none !important;
   }
   .animate-float {
+    animation: none !important;
+  }
+  .btn-glow {
+    animation: none !important;
+  }
+  .btn-glow-green {
+    animation: none !important;
+  }
+  .animate-laser-scan {
+    animation: none !important;
+  }
+  .animate-icon-float {
+    animation: none !important;
+  }
+  .animate-wave-flow {
     animation: none !important;
   }
 }

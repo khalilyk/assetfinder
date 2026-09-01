@@ -13,9 +13,9 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "AssetFinder — Know every asset. Prove every check.",
+  title: "AssetFinder: Know every asset. Prove every check.",
   description:
-    "Scan, verify and track critical fire and building assets—from installation to inspection—in one auditable record.",
+    "Scan, verify and track critical fire and building assets, from installation to inspection, in one auditable record.",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {

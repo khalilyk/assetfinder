@@ -39,7 +39,7 @@ const history = [
 
 export function LiveRecords() {
   return (
-    <section className="bg-brand-dark px-6 py-24 md:px-10">
+    <section className="overflow-x-hidden bg-brand-dark px-6 py-24 md:px-10">
       <div className="mx-auto grid max-w-7xl items-center gap-16 lg:grid-cols-2">
         <Reveal>
           <p className="text-xs font-semibold tracking-[0.2em] text-brand-lime">
@@ -70,18 +70,19 @@ export function LiveRecords() {
 
           <a
             href="#"
-            className="mt-8 inline-flex items-center gap-1.5 rounded-full border border-white/25 px-5 py-3 text-sm font-semibold text-white transition duration-200 hover:scale-105 hover:border-white/50 hover:bg-white/5 active:scale-95"
+            className="btn-glow-green group mt-8 inline-flex items-center gap-1.5 rounded-full border border-white/25 px-5 py-3 text-sm font-semibold text-white transition duration-200 hover:scale-105 hover:border-white/50 hover:bg-white/5 active:scale-95"
           >
             Explore the platform
-            <IconArrowRight className="h-4 w-4" />
+            <IconArrowRight className="h-4 w-4 transition-transform duration-200 group-hover:rotate-45" />
           </a>
         </Reveal>
 
-        <Reveal delay={150} className="relative">
-          <div className="overflow-hidden rounded-xl border border-white/10 bg-brand-dark-2 shadow-2xl shadow-black/50 transition duration-500 hover:shadow-brand-lime/5">
+        <Reveal delay={150} className="relative mx-auto w-full max-w-lg">
+          <div className="overflow-hidden rounded-xl border border-white/10 bg-brand-dark-2 shadow-2xl shadow-black/50 transition duration-500 hover:shadow-brand-lime/5 sm:mr-[60px] lg:mr-[100px]">
             <div className="flex items-center justify-between border-b border-white/10 px-4 py-2.5">
               <div className="flex items-center gap-1.5">
-                <span className="text-sm">🔥</span>
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src="/af-icon.png" alt="" className="h-3.5 w-auto" />
                 <span className="text-xs font-semibold text-white">AssetFinder</span>
               </div>
               <div className="flex items-center gap-2">
@@ -129,7 +130,7 @@ export function LiveRecords() {
                     <Field label="Installed" value="14 Nov 2024" />
                     <Field label="Owner" value="ABC Facilities Pty Ltd" />
                   </div>
-                  <div className="w-24 shrink-0">
+                  <div className="hidden w-24 shrink-0 sm:block">
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img
                       src="/af-header.png"
@@ -189,7 +190,7 @@ export function LiveRecords() {
           <img
             src="/af-phone.png"
             alt="AssetFinder mobile app showing asset AF-2048's compliance record"
-            className="animate-float absolute -bottom-10 -right-6 w-32 drop-shadow-2xl transition-transform duration-500 hover:-translate-y-1 sm:-right-12 sm:w-40"
+            className="animate-float absolute -bottom-10 -right-6 w-32 drop-shadow-2xl transition-transform duration-500 hover:-translate-y-1 sm:-bottom-12 sm:-right-10 sm:w-40"
           />
         </Reveal>
       </div>
