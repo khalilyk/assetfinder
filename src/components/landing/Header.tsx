@@ -66,7 +66,13 @@ const glowClass =
 export function Header() {
   const [open, setOpen] = useState(false);
   const [dropdown, setDropdown] = useState<string | null>(null);
+  const [mounted, setMounted] = useState(false);
   const closeTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- standard SSR-safe portal mount guard: document.body doesn't exist during server render, so createPortal can only run after the client has mounted.
+    setMounted(true);
+  }, []);
 
   const openDropdown = (label: string) => {
     if (closeTimeout.current) clearTimeout(closeTimeout.current);
@@ -89,7 +95,7 @@ export function Header() {
     <header className="reveal is-visible relative z-30 flex items-center justify-between px-6 py-5 md:px-10">
       <Link href="/" className="flex items-center transition hover:opacity-80">
         {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src="/assetfinder-logo.png" alt="AssetFinder" className="h-8 w-auto sm:h-7" />
+        <img src="/assetfinder-logo.png" alt="AssetFinder" className="h-auto w-[200px]" />
       </Link>
 
       <nav className="hidden items-center gap-8 md:flex">
@@ -178,7 +184,7 @@ export function Header() {
         </button>
       </div>
 
-      {typeof window !== "undefined" &&
+      {mounted &&
         createPortal(
           <div
             className={`fixed inset-0 z-50 flex flex-col bg-brand-lime transition-opacity duration-300 md:hidden ${
