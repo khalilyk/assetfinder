@@ -60,6 +60,24 @@ function LoginForm() {
   const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
+  const [mode, setMode] = useState<"login" | "forgot">("login");
+  const [forgotSent, setForgotSent] = useState(false);
+  const [forgotLoading, setForgotLoading] = useState(false);
+
+  async function handleForgot(e: React.FormEvent) {
+    e.preventDefault();
+    setForgotLoading(true);
+    try {
+      await fetch("/api/admin/auth/forgot-password", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email }),
+      });
+      setForgotSent(true);
+    } finally {
+      setForgotLoading(false);
+    }
+  }
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -96,56 +114,117 @@ function LoginForm() {
       </Link>
 
       <div className="mt-10">
-        <h1 className="text-xl font-bold text-white">Admin sign in</h1>
-        <p className="mt-1 text-sm text-white/50">Sign in with your AssetFinder admin account.</p>
+        {mode === "login" ? (
+          <>
+            <h1 className="text-xl font-bold text-white">Admin sign in</h1>
+            <p className="mt-1 text-sm text-white/50">Sign in with your AssetFinder admin account.</p>
 
-        <form onSubmit={handleSubmit} className="mt-6 flex flex-col gap-4">
-          <div>
-            <label htmlFor="email" className="text-xs font-semibold tracking-wide text-white/50">
-              EMAIL
-            </label>
-            <input
-              id="email"
-              type="email"
-              required
-              autoComplete="username"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              className="mt-2 w-full rounded-lg border border-white/10 bg-brand-dark-2 px-4 py-3 text-sm text-white placeholder:text-white/30 focus:border-brand-lime focus:outline-none"
-              placeholder="you@assetfinder.au"
-            />
-          </div>
-          <div>
-            <label
-              htmlFor="password"
-              className="text-xs font-semibold tracking-wide text-white/50"
+            <form onSubmit={handleSubmit} className="mt-6 flex flex-col gap-4">
+              <div>
+                <label htmlFor="email" className="text-xs font-semibold tracking-wide text-white/50">
+                  EMAIL
+                </label>
+                <input
+                  id="email"
+                  type="email"
+                  required
+                  autoComplete="username"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  className="mt-2 w-full rounded-lg border border-white/10 bg-brand-dark-2 px-4 py-3 text-sm text-white placeholder:text-white/30 focus:border-brand-lime focus:outline-none"
+                  placeholder="you@assetfinder.au"
+                />
+              </div>
+              <div>
+                <label
+                  htmlFor="password"
+                  className="text-xs font-semibold tracking-wide text-white/50"
+                >
+                  PASSWORD
+                </label>
+                <input
+                  id="password"
+                  type="password"
+                  required
+                  autoComplete="current-password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  className="mt-2 w-full rounded-lg border border-white/10 bg-brand-dark-2 px-4 py-3 text-sm text-white placeholder:text-white/30 focus:border-brand-lime focus:outline-none"
+                  placeholder="••••••••"
+                />
+              </div>
+
+              {error && (
+                <p className="rounded-lg bg-red-500/10 px-3 py-2 text-sm text-red-400">{error}</p>
+              )}
+
+              <button
+                type="submit"
+                disabled={loading}
+                className="btn-glow mt-2 flex items-center justify-center gap-1.5 rounded-full bg-brand-lime px-5 py-3 text-sm font-semibold text-brand-dark transition duration-200 hover:scale-[1.02] hover:bg-brand-lime-dark active:scale-95 disabled:opacity-60"
+              >
+                {loading ? "Signing in…" : "Sign in"}
+              </button>
+
+              <button
+                type="button"
+                onClick={() => {
+                  setMode("forgot");
+                  setForgotSent(false);
+                }}
+                className="text-center text-sm text-white/40 transition hover:text-white/70"
+              >
+                Forgot password?
+              </button>
+            </form>
+          </>
+        ) : (
+          <>
+            <h1 className="text-xl font-bold text-white">Reset your password</h1>
+            <p className="mt-1 text-sm text-white/50">
+              Enter your email and we&apos;ll send you a link to reset your password.
+            </p>
+
+            {forgotSent ? (
+              <div className="mt-6 rounded-lg bg-brand-lime/10 px-4 py-3 text-sm text-brand-lime">
+                If an account exists for that email, a reset link has been sent.
+              </div>
+            ) : (
+              <form onSubmit={handleForgot} className="mt-6 flex flex-col gap-4">
+                <div>
+                  <label htmlFor="forgot-email" className="text-xs font-semibold tracking-wide text-white/50">
+                    EMAIL
+                  </label>
+                  <input
+                    id="forgot-email"
+                    type="email"
+                    required
+                    autoComplete="username"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    className="mt-2 w-full rounded-lg border border-white/10 bg-brand-dark-2 px-4 py-3 text-sm text-white placeholder:text-white/30 focus:border-brand-lime focus:outline-none"
+                    placeholder="you@assetfinder.au"
+                  />
+                </div>
+                <button
+                  type="submit"
+                  disabled={forgotLoading}
+                  className="btn-glow mt-2 flex items-center justify-center gap-1.5 rounded-full bg-brand-lime px-5 py-3 text-sm font-semibold text-brand-dark transition duration-200 hover:scale-[1.02] hover:bg-brand-lime-dark active:scale-95 disabled:opacity-60"
+                >
+                  {forgotLoading ? "Sending…" : "Send reset link"}
+                </button>
+              </form>
+            )}
+
+            <button
+              type="button"
+              onClick={() => setMode("login")}
+              className="mt-4 block text-center text-sm text-white/40 transition hover:text-white/70"
             >
-              PASSWORD
-            </label>
-            <input
-              id="password"
-              type="password"
-              required
-              autoComplete="current-password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              className="mt-2 w-full rounded-lg border border-white/10 bg-brand-dark-2 px-4 py-3 text-sm text-white placeholder:text-white/30 focus:border-brand-lime focus:outline-none"
-              placeholder="••••••••"
-            />
-          </div>
-
-          {error && (
-            <p className="rounded-lg bg-red-500/10 px-3 py-2 text-sm text-red-400">{error}</p>
-          )}
-
-          <button
-            type="submit"
-            disabled={loading}
-            className="btn-glow mt-2 flex items-center justify-center gap-1.5 rounded-full bg-brand-lime px-5 py-3 text-sm font-semibold text-brand-dark transition duration-200 hover:scale-[1.02] hover:bg-brand-lime-dark active:scale-95 disabled:opacity-60"
-          >
-            {loading ? "Signing in…" : "Sign in"}
-          </button>
-        </form>
+              ← Back to sign in
+            </button>
+          </>
+        )}
       </div>
 
       <Link
