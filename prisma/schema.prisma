@@ -141,13 +141,76 @@ model CrmContact {
   source      String?
   notes       String?
   tags        String[]    @default([])
+  portalSlug  String?     @unique
   createdAt   DateTime    @default(now())
   updatedAt   DateTime    @updatedAt
 
   activities  CrmActivity[]
+  assets      Asset[]
+  scanLogs    ScanLog[]
 
   @@index([status])
   @@map("crm_contacts")
+}
+
+enum ComplianceStatus {
+  COMPLIANT
+  DUE_SOON
+  OVERDUE
+  UNKNOWN
+}
+
+model Asset {
+  id              String           @id @default(cuid())
+  barcode         String           @unique
+  name            String
+  type            String
+  location        String?
+  status          ComplianceStatus @default(UNKNOWN)
+  installedAt     DateTime?
+  lastInspectedAt DateTime?
+  nextDueAt       DateTime?
+  notes           String?
+  clientId        String
+  client          CrmContact       @relation(fields: [clientId], references: [id], onDelete: Cascade)
+  createdAt       DateTime         @default(now())
+  updatedAt       DateTime         @updatedAt
+
+  events          AssetEvent[]
+  scanLogs        ScanLog[]
+
+  @@index([clientId])
+  @@map("assets")
+}
+
+model AssetEvent {
+  id         String   @id @default(cuid())
+  asset      Asset    @relation(fields: [assetId], references: [id], onDelete: Cascade)
+  assetId    String
+  type       String
+  label      String
+  occurredAt DateTime @default(now())
+
+  @@index([assetId])
+  @@map("asset_events")
+}
+
+model ScanLog {
+  id         String     @id @default(cuid())
+  client     CrmContact @relation(fields: [clientId], references: [id], onDelete: Cascade)
+  clientId   String
+  asset      Asset?     @relation(fields: [assetId], references: [id], onDelete: SetNull)
+  assetId    String?
+  barcode    String
+  found      Boolean    @default(false)
+  latitude   Float?
+  longitude  Float?
+  accuracy   Float?
+  createdAt  DateTime   @default(now())
+
+  @@index([clientId])
+  @@index([assetId])
+  @@map("scan_logs")
 }
 
 model CrmActivity {

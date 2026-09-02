@@ -92,6 +92,43 @@ body {
   animation: modal-in 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
+@keyframes qr-pulse {
+  0%,
+  100% {
+    opacity: 0.55;
+    transform: scale(0.94);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.animate-qr-pulse {
+  animation: qr-pulse 1.4s ease-in-out infinite;
+}
+
+@keyframes qr-scanline {
+  0% {
+    top: 0%;
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    top: 100%;
+    opacity: 0;
+  }
+}
+
+.animate-qr-scanline {
+  animation: qr-scanline 1.8s ease-in-out infinite;
+}
+
 @keyframes icon-float {
   0%,
   100% {
