@@ -103,6 +103,8 @@ export const Icons = {
     </>,
   ),
   check: wrap(<path d="M5 12l4 4L19 6" />),
+  up: wrap(<path d="M7 14l5-5 5 5" />),
+  down: wrap(<path d="M7 10l5 5 5-5" />),
   eye: wrap(
     <>
       <path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7z" />
