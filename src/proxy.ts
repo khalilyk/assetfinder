@@ -2,7 +2,8 @@ import { NextRequest, NextResponse } from "next/server";
 import { jwtVerify } from "jose";
 import { SESSION_COOKIE } from "@/lib/session";
 
-const PUBLIC_ADMIN_PATHS = ["/admin/login"];
+const PUBLIC_ADMIN_PATHS = ["/admin/login", "/admin/reset-password"];
+const REDIRECT_IF_AUTHED_PATHS = ["/admin/login"];
 
 async function isAuthenticated(request: NextRequest): Promise<boolean> {
   const token = request.cookies.get(SESSION_COOKIE)?.value;
@@ -31,7 +32,8 @@ export async function proxy(request: NextRequest) {
       url.searchParams.set("next", pathname);
       return NextResponse.redirect(url);
     }
-    if (isPublicAdminPath && authed) {
+    const isRedirectIfAuthedPath = REDIRECT_IF_AUTHED_PATHS.some((p) => pathname.startsWith(p));
+    if (isRedirectIfAuthedPath && authed) {
       const url = request.nextUrl.clone();
       url.pathname = "/admin";
       url.search = "";

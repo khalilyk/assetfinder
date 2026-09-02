@@ -85,3 +85,25 @@ export async function getSession(): Promise<SessionPayload | null> {
   if (!token) return null;
   return verifySessionToken(token);
 }
+
+const RESET_TOKEN_TTL = 60 * 60; // 1 hour
+
+export async function createResetToken(userId: string): Promise<string> {
+  return new SignJWT({ sub: userId, purpose: "password_reset" })
+    .setProtectedHeader({ alg: "HS256" })
+    .setIssuedAt()
+    .setExpirationTime(`${RESET_TOKEN_TTL}s`)
+    .sign(getSecret());
+}
+
+export async function verifyResetToken(token: string): Promise<string | null> {
+  try {
+    const { payload } = await jwtVerify(token, getSecret());
+    if (payload.purpose === "password_reset" && typeof payload.sub === "string") {
+      return payload.sub;
+    }
+    return null;
+  } catch {
+    return null;
+  }
+}

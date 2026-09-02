@@ -13,6 +13,7 @@ const NAV: { section: string; items: { label: string; href: string; icon: keyof 
       { label: "Pages", href: "/admin/pages", icon: "pages" },
       { label: "Media Library", href: "/admin/media", icon: "media" },
       { label: "Clients", href: "/admin/crm", icon: "crm" },
+      { label: "Newsletter", href: "/admin/newsletter", icon: "mail" },
       { label: "Analytics", href: "/admin/analytics", icon: "analytics" },
       { label: "SEO / AEO / GEO", href: "/admin/seo", icon: "seo" },
     ],

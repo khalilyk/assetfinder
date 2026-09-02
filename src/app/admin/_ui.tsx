@@ -117,6 +117,12 @@ export const Icons = {
       <path d="M3 3v6h6" />
     </>,
   ),
+  mail: wrap(
+    <>
+      <rect x="3" y="5" width="18" height="14" rx="2" />
+      <path d="M4 7l8 6 8-6" />
+    </>,
+  ),
   upload: wrap(
     <>
       <path d="M12 16V4M8 8l4-4 4 4" />
@@ -206,7 +212,7 @@ export function PageHeader({
   action,
 }: {
   title: string;
-  subtitle?: string;
+  subtitle?: React.ReactNode;
   action?: React.ReactNode;
 }) {
   return (

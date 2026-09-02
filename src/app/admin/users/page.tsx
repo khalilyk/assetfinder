@@ -280,6 +280,37 @@ export default function UsersPage() {
         )}
       </Card>
 
+      <div className="mt-5 grid grid-cols-1 gap-4 sm:grid-cols-3">
+        <Card className="p-5">
+          <Badge tone="purple">Super Admin</Badge>
+          <p className="mt-3 text-[13px] font-semibold text-slate-900">Full access</p>
+          <ul className="mt-2 flex flex-col gap-1.5 text-[12.5px] text-slate-500">
+            <li>Everything an Admin can do</li>
+            <li>Add, edit, and remove users</li>
+            <li>Change anyone&apos;s role</li>
+            <li>Reset another user&apos;s password</li>
+          </ul>
+        </Card>
+        <Card className="p-5">
+          <Badge tone="blue">Admin</Badge>
+          <p className="mt-3 text-[13px] font-semibold text-slate-900">Manage content &amp; settings</p>
+          <ul className="mt-2 flex flex-col gap-1.5 text-[12.5px] text-slate-500">
+            <li>Everything an Editor can do</li>
+            <li>Change site-wide Settings</li>
+            <li>Edit their own profile &amp; card</li>
+          </ul>
+        </Card>
+        <Card className="p-5">
+          <Badge tone="slate">Editor</Badge>
+          <p className="mt-3 text-[13px] font-semibold text-slate-900">Manage content</p>
+          <ul className="mt-2 flex flex-col gap-1.5 text-[12.5px] text-slate-500">
+            <li>Pages, Media, Clients, Newsletter</li>
+            <li>Analytics &amp; SEO tools</li>
+            <li>Edit their own profile &amp; card</li>
+          </ul>
+        </Card>
+      </div>
+
       {editing && (
         <UserEditor
           user={editing}
@@ -319,6 +350,7 @@ function UserEditor({
 
   async function save() {
     setSaving(true);
+    const hasCardInfo = !!(form.title || form.phone || form.linkedinUrl || form.bio || form.avatarUrl);
     await fetch(`/api/admin/users/${user.id}`, {
       method: "PATCH",
       headers: { "Content-Type": "application/json" },
@@ -329,6 +361,7 @@ function UserEditor({
         phone: form.phone ?? "",
         linkedinUrl: form.linkedinUrl ?? "",
         bio: form.bio ?? "",
+        ...(hasCardInfo && !form.cardSlug ? { generateCardSlug: true } : {}),
       }),
     });
     setSaving(false);
