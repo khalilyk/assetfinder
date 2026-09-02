@@ -111,6 +111,12 @@ export const Icons = {
       <circle cx="12" cy="12" r="2.6" />
     </>,
   ),
+  upload: wrap(
+    <>
+      <path d="M12 16V4M8 8l4-4 4 4" />
+      <path d="M4 16v3a1 1 0 001 1h14a1 1 0 001-1v-3" />
+    </>,
+  ),
   globe: wrap(
     <>
       <circle cx="12" cy="12" r="9" />
