@@ -4,6 +4,7 @@ import { use, useEffect, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { Card, PageHeader, Btn, Icons } from "../../_ui";
+import { generateSeoFromPage } from "@/lib/seo-autofill";
 
 type Section = { id: string; type: string; fields: Record<string, string> };
 
@@ -130,6 +131,15 @@ export default function PageEditor({ params }: { params: Promise<{ id: string }>
     );
   }
 
+  function autoFillSeo() {
+    const hasExisting = Object.values(seo).some((v) => typeof v === "string" && v.trim());
+    if (hasExisting && !confirm("This will overwrite the current SEO/AEO/GEO fields with content generated from this page. Continue?")) {
+      return;
+    }
+    const generated = generateSeoFromPage(title, sections);
+    setSeo((s) => ({ ...s, ...generated }));
+  }
+
   async function save() {
     setError(null);
     setSaved(false);
@@ -195,7 +205,7 @@ export default function PageEditor({ params }: { params: Promise<{ id: string }>
   }
 
   if (loading) {
-    return <p className="p-6 text-sm text-white/40">Loading…</p>;
+    return <p className="p-6 text-sm text-slate-400">Loading…</p>;
   }
 
   return (
@@ -205,7 +215,7 @@ export default function PageEditor({ params }: { params: Promise<{ id: string }>
         subtitle={`/${slug}`}
         action={
           <div className="flex items-center gap-2">
-            {saved && <span className="text-[13px] font-medium text-brand-lime">Saved</span>}
+            {saved && <span className="text-[13px] font-medium text-brand-lime-text">Saved</span>}
             <Btn variant="outline" onClick={deletePage}>
               <Icons.trash size={15} /> Delete
             </Btn>
@@ -216,19 +226,19 @@ export default function PageEditor({ params }: { params: Promise<{ id: string }>
         }
       />
 
-      <Link href="/admin/pages" className="mb-5 inline-block text-[13px] text-white/40 hover:text-white/70">
+      <Link href="/admin/pages" className="mb-5 inline-block text-[13px] text-slate-400 hover:text-slate-600">
         ← Back to Pages
       </Link>
 
-      {error && <p className="mb-4 rounded-lg bg-red-500/10 px-3 py-2 text-sm text-red-400">{error}</p>}
+      {error && <p className="mb-4 rounded-lg bg-red-50 px-3 py-2 text-sm text-red-600">{error}</p>}
 
-      <div className="mb-5 flex gap-1 border-b border-white/10">
+      <div className="mb-5 flex gap-1 border-b border-slate-200">
         {(["content", "seo"] as const).map((t) => (
           <button
             key={t}
             onClick={() => setTab(t)}
             className={`px-4 py-2.5 text-[13px] font-semibold transition ${
-              tab === t ? "border-b-2 border-brand-lime text-white" : "text-white/40 hover:text-white/70"
+              tab === t ? "border-b-2 border-brand-lime text-slate-900" : "text-slate-400 hover:text-slate-600"
             }`}
           >
             {t === "content" ? "Content" : "SEO / AEO / GEO"}
@@ -241,23 +251,23 @@ export default function PageEditor({ params }: { params: Promise<{ id: string }>
           <Card className="p-5">
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
               <div>
-                <label className="text-[11px] font-semibold tracking-wide text-white/50">TITLE</label>
+                <label className="text-[11px] font-semibold tracking-wide text-slate-500">TITLE</label>
                 <input
                   value={title}
                   onChange={(e) => setTitle(e.target.value)}
-                  className="mt-1.5 w-full rounded-lg border border-white/10 bg-brand-dark px-3 py-2.5 text-sm text-white focus:border-brand-lime focus:outline-none"
+                  className="mt-1.5 w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2.5 text-sm text-slate-900 focus:border-brand-lime focus:bg-white focus:outline-none"
                 />
               </div>
               <div>
-                <label className="text-[11px] font-semibold tracking-wide text-white/50">SLUG</label>
+                <label className="text-[11px] font-semibold tracking-wide text-slate-500">SLUG</label>
                 <input
                   value={slug}
                   onChange={(e) => setSlug(e.target.value)}
-                  className="mt-1.5 w-full rounded-lg border border-white/10 bg-brand-dark px-3 py-2.5 text-sm text-white focus:border-brand-lime focus:outline-none"
+                  className="mt-1.5 w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2.5 text-sm text-slate-900 focus:border-brand-lime focus:bg-white focus:outline-none"
                 />
               </div>
             </div>
-            <label className="mt-4 flex w-fit items-center gap-2 text-[13px] font-medium text-white/70">
+            <label className="mt-4 flex w-fit items-center gap-2 text-[13px] font-medium text-slate-600">
               <input
                 type="checkbox"
                 checked={published}
@@ -269,14 +279,14 @@ export default function PageEditor({ params }: { params: Promise<{ id: string }>
           </Card>
 
           <div className="flex items-center justify-between">
-            <p className="text-[13px] font-semibold text-white">Sections</p>
+            <p className="text-[13px] font-semibold text-slate-900">Sections</p>
             <Btn variant="outline" onClick={addSection}>
               <Icons.plus size={15} /> Add Section
             </Btn>
           </div>
 
           {sections.length === 0 ? (
-            <Card className="p-6 text-center text-sm text-white/40">No sections yet.</Card>
+            <Card className="p-6 text-center text-sm text-slate-400">No sections yet.</Card>
           ) : (
             sections.map((s, i) => (
               <Card key={s.id} className="p-5">
@@ -284,13 +294,13 @@ export default function PageEditor({ params }: { params: Promise<{ id: string }>
                   <input
                     value={s.type}
                     onChange={(e) => updateSectionType(s.id, e.target.value)}
-                    className="rounded-lg border border-white/10 bg-brand-dark px-3 py-2 text-[13px] font-semibold text-white focus:border-brand-lime focus:outline-none"
+                    className="rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-[13px] font-semibold text-slate-900 focus:border-brand-lime focus:bg-white focus:outline-none"
                   />
                   <div className="flex items-center gap-1">
                     <button
                       onClick={() => moveSection(i, -1)}
                       disabled={i === 0}
-                      className="rounded-lg p-2 text-white/40 transition hover:bg-white/8 hover:text-white disabled:opacity-30"
+                      className="rounded-lg p-2 text-slate-400 transition hover:bg-slate-100 hover:text-slate-700 disabled:opacity-30"
                       aria-label="Move up"
                     >
                       <Icons.up size={15} />
@@ -298,14 +308,14 @@ export default function PageEditor({ params }: { params: Promise<{ id: string }>
                     <button
                       onClick={() => moveSection(i, 1)}
                       disabled={i === sections.length - 1}
-                      className="rounded-lg p-2 text-white/40 transition hover:bg-white/8 hover:text-white disabled:opacity-30"
+                      className="rounded-lg p-2 text-slate-400 transition hover:bg-slate-100 hover:text-slate-700 disabled:opacity-30"
                       aria-label="Move down"
                     >
                       <Icons.down size={15} />
                     </button>
                     <button
                       onClick={() => removeSection(s.id)}
-                      className="rounded-lg p-2 text-white/40 transition hover:bg-rose-500/10 hover:text-rose-400"
+                      className="rounded-lg p-2 text-slate-400 transition hover:bg-rose-50 hover:text-rose-600"
                       aria-label="Remove section"
                     >
                       <Icons.trash size={15} />
@@ -316,18 +326,18 @@ export default function PageEditor({ params }: { params: Promise<{ id: string }>
                 <div className="mt-4 flex flex-col gap-3">
                   {Object.entries(s.fields).map(([key, value]) => (
                     <div key={key} className="flex items-start gap-2">
-                      <div className="w-32 flex-shrink-0 pt-2.5 text-[11px] font-semibold uppercase tracking-wide text-white/40">
+                      <div className="w-32 flex-shrink-0 pt-2.5 text-[11px] font-semibold uppercase tracking-wide text-slate-400">
                         {key}
                       </div>
                       <textarea
                         value={value}
                         onChange={(e) => updateField(s.id, key, e.target.value)}
                         rows={value.length > 80 ? 3 : 1}
-                        className="flex-1 rounded-lg border border-white/10 bg-brand-dark px-3 py-2 text-[13px] text-white focus:border-brand-lime focus:outline-none"
+                        className="flex-1 rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-[13px] text-slate-900 focus:border-brand-lime focus:bg-white focus:outline-none"
                       />
                       <button
                         onClick={() => removeField(s.id, key)}
-                        className="mt-1 rounded-lg p-2 text-white/30 transition hover:bg-rose-500/10 hover:text-rose-400"
+                        className="mt-1 rounded-lg p-2 text-slate-300 transition hover:bg-rose-50 hover:text-rose-600"
                         aria-label="Remove field"
                       >
                         <Icons.trash size={13} />
@@ -336,7 +346,7 @@ export default function PageEditor({ params }: { params: Promise<{ id: string }>
                   ))}
                   <button
                     onClick={() => addField(s.id)}
-                    className="w-fit text-[12px] font-semibold text-brand-lime hover:text-brand-lime-dark"
+                    className="w-fit text-[12px] font-semibold text-brand-lime-text hover:text-brand-lime-dark"
                   >
                     + Add field
                   </button>
@@ -349,8 +359,20 @@ export default function PageEditor({ params }: { params: Promise<{ id: string }>
 
       {tab === "seo" && (
         <div className="flex flex-col gap-5">
+          <div className="flex items-center justify-between rounded-2xl border border-brand-lime/30 bg-lime-50 px-5 py-4">
+            <div>
+              <p className="text-[13px] font-semibold text-slate-900">Auto-fill from page content</p>
+              <p className="mt-0.5 text-[12px] text-slate-500">
+                Generates the fields below from this page&apos;s title and sections, tailored for Australia.
+              </p>
+            </div>
+            <Btn variant="outline" onClick={autoFillSeo}>
+              <Icons.refresh size={15} /> Auto-fill
+            </Btn>
+          </div>
+
           <Card className="p-5">
-            <p className="mb-4 text-[12px] font-bold uppercase tracking-wide text-white/40">Classic SEO</p>
+            <p className="mb-4 text-[12px] font-bold uppercase tracking-wide text-slate-400">Classic SEO</p>
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
               <TextField label="Meta Title" value={seo.metaTitle} onChange={(v) => setSeo({ ...seo, metaTitle: v })} />
               <TextField label="Canonical URL" value={seo.canonicalUrl} onChange={(v) => setSeo({ ...seo, canonicalUrl: v })} />
@@ -364,7 +386,7 @@ export default function PageEditor({ params }: { params: Promise<{ id: string }>
               <TextField label="Keywords" value={seo.keywords} onChange={(v) => setSeo({ ...seo, keywords: v })} />
               <TextField label="OG Image URL" value={seo.ogImageUrl} onChange={(v) => setSeo({ ...seo, ogImageUrl: v })} />
             </div>
-            <label className="mt-4 flex w-fit items-center gap-2 text-[13px] font-medium text-white/70">
+            <label className="mt-4 flex w-fit items-center gap-2 text-[13px] font-medium text-slate-600">
               <input
                 type="checkbox"
                 checked={seo.noindex}
@@ -376,7 +398,7 @@ export default function PageEditor({ params }: { params: Promise<{ id: string }>
           </Card>
 
           <Card className="p-5">
-            <p className="mb-4 text-[12px] font-bold uppercase tracking-wide text-white/40">
+            <p className="mb-4 text-[12px] font-bold uppercase tracking-wide text-slate-400">
               AEO — Answer Engine Optimization
             </p>
             <div className="flex flex-col gap-4">
@@ -400,7 +422,7 @@ export default function PageEditor({ params }: { params: Promise<{ id: string }>
           </Card>
 
           <Card className="p-5">
-            <p className="mb-4 text-[12px] font-bold uppercase tracking-wide text-white/40">
+            <p className="mb-4 text-[12px] font-bold uppercase tracking-wide text-slate-400">
               GEO — Generative Engine Optimization
             </p>
             <div className="flex flex-col gap-4">
@@ -432,11 +454,11 @@ export default function PageEditor({ params }: { params: Promise<{ id: string }>
 function TextField({ label, value, onChange }: { label: string; value: string; onChange: (v: string) => void }) {
   return (
     <div>
-      <label className="text-[11px] font-semibold tracking-wide text-white/50">{label.toUpperCase()}</label>
+      <label className="text-[11px] font-semibold tracking-wide text-slate-500">{label.toUpperCase()}</label>
       <input
         value={value}
         onChange={(e) => onChange(e.target.value)}
-        className="mt-1.5 w-full rounded-lg border border-white/10 bg-brand-dark px-3 py-2.5 text-sm text-white focus:border-brand-lime focus:outline-none"
+        className="mt-1.5 w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2.5 text-sm text-slate-900 focus:border-brand-lime focus:bg-white focus:outline-none"
       />
     </div>
   );
@@ -455,12 +477,12 @@ function TextAreaField({
 }) {
   return (
     <div>
-      <label className="text-[11px] font-semibold tracking-wide text-white/50">{label.toUpperCase()}</label>
+      <label className="text-[11px] font-semibold tracking-wide text-slate-500">{label.toUpperCase()}</label>
       <textarea
         value={value}
         onChange={(e) => onChange(e.target.value)}
         rows={mono ? 6 : 3}
-        className={`mt-1.5 w-full rounded-lg border border-white/10 bg-brand-dark px-3 py-2.5 text-sm text-white focus:border-brand-lime focus:outline-none ${
+        className={`mt-1.5 w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2.5 text-sm text-slate-900 focus:border-brand-lime focus:bg-white focus:outline-none ${
           mono ? "font-mono text-[12px]" : ""
         }`}
       />

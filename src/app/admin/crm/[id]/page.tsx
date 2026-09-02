@@ -137,7 +137,7 @@ export default function ContactDetail({ params }: { params: Promise<{ id: string
   }
 
   if (loading || !contact) {
-    return <p className="p-6 text-sm text-white/40">Loading…</p>;
+    return <p className="p-6 text-sm text-slate-400">Loading…</p>;
   }
 
   return (
@@ -147,7 +147,7 @@ export default function ContactDetail({ params }: { params: Promise<{ id: string
         subtitle={contact.company ?? undefined}
         action={
           <div className="flex items-center gap-2">
-            {saved && <span className="text-[13px] font-medium text-brand-lime">Saved</span>}
+            {saved && <span className="text-[13px] font-medium text-brand-lime-text">Saved</span>}
             <Btn variant="outline" onClick={deleteContact}>
               <Icons.trash size={15} /> Delete
             </Btn>
@@ -158,7 +158,7 @@ export default function ContactDetail({ params }: { params: Promise<{ id: string
         }
       />
 
-      <Link href="/admin/crm" className="mb-5 inline-block text-[13px] text-white/40 hover:text-white/70">
+      <Link href="/admin/crm" className="mb-5 inline-block text-[13px] text-slate-400 hover:text-slate-600">
         ← Back to CRM
       </Link>
 
@@ -175,15 +175,15 @@ export default function ContactDetail({ params }: { params: Promise<{ id: string
             </div>
 
             <div className="mt-4">
-              <label className="text-[11px] font-semibold tracking-wide text-white/50">TAGS</label>
+              <label className="text-[11px] font-semibold tracking-wide text-slate-500">TAGS</label>
               <div className="mt-1.5 flex flex-wrap items-center gap-1.5">
                 {contact.tags.map((t) => (
                   <span
                     key={t}
-                    className="flex items-center gap-1 rounded-full bg-white/8 px-2.5 py-1 text-[11px] font-semibold text-white/70"
+                    className="flex items-center gap-1 rounded-full bg-slate-100 px-2.5 py-1 text-[11px] font-semibold text-slate-600"
                   >
                     {t}
-                    <button onClick={() => removeTag(t)} className="text-white/40 hover:text-rose-400">
+                    <button onClick={() => removeTag(t)} className="text-slate-400 hover:text-rose-500">
                       ✕
                     </button>
                   </span>
@@ -198,24 +198,24 @@ export default function ContactDetail({ params }: { params: Promise<{ id: string
                     }
                   }}
                   placeholder="Add tag…"
-                  className="w-24 rounded-full border border-white/10 bg-brand-dark px-2.5 py-1 text-[11px] text-white placeholder:text-white/30 focus:border-brand-lime focus:outline-none"
+                  className="w-24 rounded-full border border-slate-200 bg-slate-50 px-2.5 py-1 text-[11px] text-slate-900 placeholder:text-slate-400 focus:border-brand-lime focus:bg-white focus:outline-none"
                 />
               </div>
             </div>
 
             <div className="mt-4">
-              <label className="text-[11px] font-semibold tracking-wide text-white/50">NOTES</label>
+              <label className="text-[11px] font-semibold tracking-wide text-slate-500">NOTES</label>
               <textarea
                 value={contact.notes ?? ""}
                 onChange={(e) => set("notes", e.target.value)}
                 rows={4}
-                className="mt-1.5 w-full rounded-lg border border-white/10 bg-brand-dark px-3 py-2.5 text-sm text-white focus:border-brand-lime focus:outline-none"
+                className="mt-1.5 w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2.5 text-sm text-slate-900 focus:border-brand-lime focus:bg-white focus:outline-none"
               />
             </div>
           </Card>
 
           <Card className="p-5">
-            <p className="mb-4 text-[13px] font-semibold text-white">Activity</p>
+            <p className="mb-4 text-[13px] font-semibold text-slate-900">Activity</p>
             <form onSubmit={addActivity} className="mb-5 flex flex-col gap-2">
               <div className="flex gap-2">
                 {(["note", "call", "email", "meeting"] as const).map((t) => (
@@ -224,7 +224,7 @@ export default function ContactDetail({ params }: { params: Promise<{ id: string
                     key={t}
                     onClick={() => setActivityType(t)}
                     className={`rounded-full px-3 py-1.5 text-[11.5px] font-semibold transition ${
-                      activityType === t ? "bg-brand-lime text-brand-dark" : "text-white/50 hover:bg-white/8 hover:text-white"
+                      activityType === t ? "bg-brand-lime text-brand-dark" : "text-slate-500 hover:bg-slate-100 hover:text-slate-900"
                     }`}
                   >
                     {ACTIVITY_LABEL[t]}
@@ -236,7 +236,7 @@ export default function ContactDetail({ params }: { params: Promise<{ id: string
                   value={activityContent}
                   onChange={(e) => setActivityContent(e.target.value)}
                   placeholder="Log a note, call, email, or meeting…"
-                  className="flex-1 rounded-lg border border-white/10 bg-brand-dark px-3 py-2.5 text-sm text-white placeholder:text-white/30 focus:border-brand-lime focus:outline-none"
+                  className="flex-1 rounded-lg border border-slate-200 bg-slate-50 px-3 py-2.5 text-sm text-slate-900 placeholder:text-slate-400 focus:border-brand-lime focus:bg-white focus:outline-none"
                 />
                 <Btn type="submit" disabled={addingActivity}>
                   Add
@@ -245,18 +245,18 @@ export default function ContactDetail({ params }: { params: Promise<{ id: string
             </form>
 
             {contact.activities.length === 0 ? (
-              <p className="text-sm text-white/40">No activity logged yet.</p>
+              <p className="text-sm text-slate-400">No activity logged yet.</p>
             ) : (
               <ul className="flex flex-col gap-3">
                 {contact.activities.map((a) => (
-                  <li key={a.id} className="flex items-start gap-3 border-b border-white/5 pb-3 last:border-0 last:pb-0">
+                  <li key={a.id} className="flex items-start gap-3 border-b border-slate-100 pb-3 last:border-0 last:pb-0">
                     <span className="mt-1 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-brand-lime" />
                     <div className="min-w-0">
-                      <p className="text-[13px] text-white/80">
+                      <p className="text-[13px] text-slate-700">
                         <span className="font-semibold">{ACTIVITY_LABEL[a.type]}</span>
                         {a.content ? ` — ${a.content}` : ""}
                       </p>
-                      <p className="text-[11px] text-white/35">
+                      <p className="text-[11px] text-slate-400">
                         {new Date(a.createdAt).toLocaleString("en-AU", { dateStyle: "medium", timeStyle: "short" })}
                       </p>
                     </div>
@@ -268,14 +268,14 @@ export default function ContactDetail({ params }: { params: Promise<{ id: string
         </div>
 
         <Card className="h-fit p-5">
-          <p className="mb-3 text-[13px] font-semibold text-white">Pipeline Status</p>
+          <p className="mb-3 text-[13px] font-semibold text-slate-900">Pipeline Status</p>
           <div className="flex flex-col gap-1.5">
             {STATUSES.map((s) => (
               <button
                 key={s}
                 onClick={() => changeStatus(s)}
                 className={`rounded-xl px-3 py-2.5 text-left text-[13px] font-semibold transition ${
-                  contact.status === s ? "bg-brand-lime text-brand-dark" : "text-white/60 hover:bg-white/8 hover:text-white"
+                  contact.status === s ? "bg-brand-lime text-brand-dark" : "text-slate-500 hover:bg-slate-100 hover:text-slate-900"
                 }`}
               >
                 {STATUS_LABEL[s]}
@@ -291,11 +291,11 @@ export default function ContactDetail({ params }: { params: Promise<{ id: string
 function Field({ label, value, onChange }: { label: string; value: string; onChange: (v: string) => void }) {
   return (
     <div>
-      <label className="text-[11px] font-semibold tracking-wide text-white/50">{label.toUpperCase()}</label>
+      <label className="text-[11px] font-semibold tracking-wide text-slate-500">{label.toUpperCase()}</label>
       <input
         value={value}
         onChange={(e) => onChange(e.target.value)}
-        className="mt-1.5 w-full rounded-lg border border-white/10 bg-brand-dark px-3 py-2.5 text-sm text-white focus:border-brand-lime focus:outline-none"
+        className="mt-1.5 w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2.5 text-sm text-slate-900 focus:border-brand-lime focus:bg-white focus:outline-none"
       />
     </div>
   );

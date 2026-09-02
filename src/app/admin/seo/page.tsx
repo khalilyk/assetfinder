@@ -71,26 +71,26 @@ export default function SeoOverviewPage() {
 
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
         <Card className="p-5">
-          <p className="text-[12px] font-semibold text-white/50">Pages missing classic SEO</p>
-          <p className="mt-3 text-2xl font-bold text-white">{missingMeta}</p>
+          <p className="text-[12px] font-semibold text-slate-500">Pages missing classic SEO</p>
+          <p className="mt-3 text-2xl font-bold text-slate-900">{missingMeta}</p>
         </Card>
         <Card className="p-5">
-          <p className="text-[12px] font-semibold text-white/50">Pages missing AEO</p>
-          <p className="mt-3 text-2xl font-bold text-white">{missingAeo}</p>
+          <p className="text-[12px] font-semibold text-slate-500">Pages missing AEO</p>
+          <p className="mt-3 text-2xl font-bold text-slate-900">{missingAeo}</p>
         </Card>
         <Card className="p-5">
-          <p className="text-[12px] font-semibold text-white/50">Pages missing GEO</p>
-          <p className="mt-3 text-2xl font-bold text-white">{missingGeo}</p>
+          <p className="text-[12px] font-semibold text-slate-500">Pages missing GEO</p>
+          <p className="mt-3 text-2xl font-bold text-slate-900">{missingGeo}</p>
         </Card>
       </div>
 
       <Card className="mt-4 overflow-hidden">
         {pages === null ? (
-          <p className="p-6 text-sm text-white/40">Loading…</p>
+          <p className="p-6 text-sm text-slate-400">Loading…</p>
         ) : pages.length === 0 ? (
-          <p className="p-6 text-sm text-white/40">
+          <p className="p-6 text-sm text-slate-400">
             No pages yet.{" "}
-            <Link href="/admin/pages" className="text-brand-lime hover:text-brand-lime-dark">
+            <Link href="/admin/pages" className="text-brand-lime-text hover:text-brand-lime-dark">
               Create one
             </Link>{" "}
             to start optimizing.
@@ -98,7 +98,7 @@ export default function SeoOverviewPage() {
         ) : (
           <table className="w-full text-left text-sm">
             <thead>
-              <tr className="border-b border-white/10 text-[11px] uppercase tracking-wide text-white/40">
+              <tr className="border-b border-slate-200 text-[11px] uppercase tracking-wide text-slate-400">
                 <th className="px-5 py-3 font-semibold">Page</th>
                 <th className="px-5 py-3 font-semibold">Classic SEO</th>
                 <th className="px-5 py-3 font-semibold">AEO</th>
@@ -108,13 +108,13 @@ export default function SeoOverviewPage() {
             </thead>
             <tbody>
               {pages.map((p) => (
-                <tr key={p.id} className="border-b border-white/5 last:border-0 hover:bg-white/[0.03]">
+                <tr key={p.id} className="border-b border-slate-100 last:border-0 hover:bg-slate-50">
                   <td className="px-5 py-3.5">
-                    <p className="font-semibold text-white">{p.title}</p>
-                    <p className="text-[11px] text-white/40">
+                    <p className="font-semibold text-slate-900">{p.title}</p>
+                    <p className="text-[11px] text-slate-400">
                       /{p.slug}
                       {p.seo?.noindex && (
-                        <span className="ml-2 rounded bg-rose-500/10 px-1.5 py-0.5 text-rose-400">noindex</span>
+                        <span className="ml-2 rounded bg-rose-50 px-1.5 py-0.5 text-rose-600">noindex</span>
                       )}
                     </p>
                   </td>
@@ -130,7 +130,7 @@ export default function SeoOverviewPage() {
                   <td className="px-5 py-3.5 text-right">
                     <Link
                       href={`/admin/pages/${p.id}?tab=seo`}
-                      className="inline-flex items-center gap-1 text-[12.5px] font-semibold text-brand-lime hover:text-brand-lime-dark"
+                      className="inline-flex items-center gap-1 text-[12.5px] font-semibold text-brand-lime-text hover:text-brand-lime-dark"
                     >
                       <Icons.edit size={13} /> Edit
                     </Link>

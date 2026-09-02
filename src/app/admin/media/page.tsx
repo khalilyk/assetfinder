@@ -166,7 +166,7 @@ export default function MediaLibraryPage() {
         }
       />
 
-      {error && <p className="mb-4 rounded-lg bg-red-500/10 px-3 py-2 text-sm text-red-400">{error}</p>}
+      {error && <p className="mb-4 rounded-lg bg-red-50 px-3 py-2 text-sm text-red-600">{error}</p>}
 
       <div className="mb-5 flex gap-1">
         {FILTERS.map((f) => (
@@ -174,7 +174,7 @@ export default function MediaLibraryPage() {
             key={f.value}
             onClick={() => setFilter(f.value)}
             className={`rounded-full px-3.5 py-1.5 text-[12.5px] font-semibold transition ${
-              filter === f.value ? "bg-brand-lime text-brand-dark" : "text-white/50 hover:bg-white/8 hover:text-white"
+              filter === f.value ? "bg-brand-lime text-brand-dark" : "text-slate-500 hover:bg-slate-100 hover:text-slate-900"
             }`}
           >
             {f.label}
@@ -183,9 +183,9 @@ export default function MediaLibraryPage() {
       </div>
 
       {assets === null ? (
-        <p className="text-sm text-white/40">Loading…</p>
+        <p className="text-sm text-slate-400">Loading…</p>
       ) : filtered.length === 0 ? (
-        <Card className="p-10 text-center text-sm text-white/40">
+        <Card className="p-10 text-center text-sm text-slate-400">
           {assets.length === 0 ? "No media yet. Upload your first file to get started." : "No files match this filter."}
         </Card>
       ) : (
@@ -199,22 +199,22 @@ export default function MediaLibraryPage() {
               }}
               className="group text-left"
             >
-              <Card className="aspect-square overflow-hidden transition group-hover:border-white/25">
+              <Card className="aspect-square overflow-hidden transition group-hover:border-slate-300">
                 {a.type === "IMAGE" ? (
                   // eslint-disable-next-line @next/next/no-img-element
                   <img src={a.url} alt={a.alt ?? ""} className="h-full w-full object-cover" />
                 ) : a.type === "VIDEO" ? (
-                  <div className="flex h-full w-full items-center justify-center bg-white/[0.03]">
-                    <Icons.media size={28} className="text-white/25" />
+                  <div className="flex h-full w-full items-center justify-center bg-slate-50">
+                    <Icons.media size={28} className="text-slate-300" />
                   </div>
                 ) : (
-                  <div className="flex h-full w-full items-center justify-center bg-white/[0.03]">
-                    <Icons.pages size={28} className="text-white/25" />
+                  <div className="flex h-full w-full items-center justify-center bg-slate-50">
+                    <Icons.pages size={28} className="text-slate-300" />
                   </div>
                 )}
               </Card>
-              <p className="mt-1.5 truncate text-[12px] font-medium text-white/70">{a.filename}</p>
-              <p className="text-[11px] text-white/35">{formatBytes(a.size)}</p>
+              <p className="mt-1.5 truncate text-[12px] font-medium text-slate-600">{a.filename}</p>
+              <p className="text-[11px] text-slate-400">{formatBytes(a.size)}</p>
             </button>
           ))}
         </div>
@@ -226,18 +226,18 @@ export default function MediaLibraryPage() {
           onClick={() => setSelected(null)}
         >
           <div
-            className="flex max-h-[85vh] w-full max-w-2xl flex-col overflow-hidden rounded-2xl border border-white/10 bg-brand-dark-2"
+            className="flex max-h-[85vh] w-full max-w-2xl flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white"
             onClick={(e) => e.stopPropagation()}
           >
-            <div className="flex items-center justify-between border-b border-white/10 px-5 py-4">
-              <p className="truncate text-sm font-semibold text-white">{selected.filename}</p>
-              <button onClick={() => setSelected(null)} className="rounded-lg p-1.5 text-white/40 hover:bg-white/8 hover:text-white">
+            <div className="flex items-center justify-between border-b border-slate-200 px-5 py-4">
+              <p className="truncate text-sm font-semibold text-slate-900">{selected.filename}</p>
+              <button onClick={() => setSelected(null)} className="rounded-lg p-1.5 text-slate-400 hover:bg-slate-100 hover:text-slate-900">
                 ✕
               </button>
             </div>
 
             <div className="flex-1 overflow-y-auto p-5">
-              <div className="flex items-center justify-center overflow-hidden rounded-xl bg-brand-dark">
+              <div className="flex items-center justify-center overflow-hidden rounded-xl bg-slate-50">
                 {selected.type === "IMAGE" ? (
                   // eslint-disable-next-line @next/next/no-img-element
                   <img src={selected.url} alt={selected.alt ?? ""} className="max-h-80 w-full object-contain" />
@@ -245,44 +245,44 @@ export default function MediaLibraryPage() {
                   <video src={selected.url} controls className="max-h-80 w-full" />
                 ) : (
                   <div className="flex h-40 w-full items-center justify-center">
-                    <Icons.pages size={40} className="text-white/25" />
+                    <Icons.pages size={40} className="text-slate-300" />
                   </div>
                 )}
               </div>
 
               <div className="mt-5 grid grid-cols-2 gap-4 text-[13px]">
                 <div>
-                  <p className="text-[11px] font-semibold uppercase tracking-wide text-white/40">Type</p>
-                  <p className="mt-1 text-white/80">{selected.contentType ?? selected.type}</p>
+                  <p className="text-[11px] font-semibold uppercase tracking-wide text-slate-400">Type</p>
+                  <p className="mt-1 text-slate-700">{selected.contentType ?? selected.type}</p>
                 </div>
                 <div>
-                  <p className="text-[11px] font-semibold uppercase tracking-wide text-white/40">Size</p>
-                  <p className="mt-1 text-white/80">{formatBytes(selected.size)}</p>
+                  <p className="text-[11px] font-semibold uppercase tracking-wide text-slate-400">Size</p>
+                  <p className="mt-1 text-slate-700">{formatBytes(selected.size)}</p>
                 </div>
                 {selected.width && selected.height && (
                   <div>
-                    <p className="text-[11px] font-semibold uppercase tracking-wide text-white/40">Dimensions</p>
-                    <p className="mt-1 text-white/80">
+                    <p className="text-[11px] font-semibold uppercase tracking-wide text-slate-400">Dimensions</p>
+                    <p className="mt-1 text-slate-700">
                       {selected.width} × {selected.height}
                     </p>
                   </div>
                 )}
                 <div>
-                  <p className="text-[11px] font-semibold uppercase tracking-wide text-white/40">Uploaded</p>
-                  <p className="mt-1 text-white/80">
+                  <p className="text-[11px] font-semibold uppercase tracking-wide text-slate-400">Uploaded</p>
+                  <p className="mt-1 text-slate-700">
                     {new Date(selected.createdAt).toLocaleDateString("en-AU", { dateStyle: "medium" })}
                   </p>
                 </div>
               </div>
 
               <div className="mt-5">
-                <label className="text-[11px] font-semibold tracking-wide text-white/50">ALT TEXT</label>
+                <label className="text-[11px] font-semibold tracking-wide text-slate-500">ALT TEXT</label>
                 <div className="mt-1.5 flex gap-2">
                   <input
                     value={altDraft}
                     onChange={(e) => setAltDraft(e.target.value)}
                     placeholder="Describe this image for accessibility and SEO"
-                    className="flex-1 rounded-lg border border-white/10 bg-brand-dark px-3 py-2.5 text-sm text-white placeholder:text-white/30 focus:border-brand-lime focus:outline-none"
+                    className="flex-1 rounded-lg border border-slate-200 bg-slate-50 px-3 py-2.5 text-sm text-slate-900 placeholder:text-slate-400 focus:border-brand-lime focus:bg-white focus:outline-none"
                   />
                   <Btn variant="outline" onClick={saveAlt} disabled={savingAlt}>
                     {savingAlt ? "Saving…" : "Save"}
@@ -291,19 +291,19 @@ export default function MediaLibraryPage() {
               </div>
 
               <div className="mt-5">
-                <label className="text-[11px] font-semibold tracking-wide text-white/50">URL</label>
+                <label className="text-[11px] font-semibold tracking-wide text-slate-500">URL</label>
                 <div className="mt-1.5 flex gap-2">
                   <input
                     readOnly
                     value={selected.url}
                     onClick={(e) => (e.target as HTMLInputElement).select()}
-                    className="flex-1 rounded-lg border border-white/10 bg-brand-dark px-3 py-2.5 text-[12px] text-white/60 focus:outline-none"
+                    className="flex-1 rounded-lg border border-slate-200 bg-slate-50 px-3 py-2.5 text-[12px] text-slate-500 focus:outline-none"
                   />
                 </div>
               </div>
             </div>
 
-            <div className="flex justify-end gap-2 border-t border-white/10 px-5 py-4">
+            <div className="flex justify-end gap-2 border-t border-slate-200 px-5 py-4">
               <Btn variant="outline" onClick={() => deleteAsset(selected.id)}>
                 <Icons.trash size={15} /> Delete
               </Btn>

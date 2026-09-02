@@ -8,6 +8,6 @@ export async function GET() {
   }
 
   return NextResponse.json({
-    user: { name: session.name, email: session.email, role: session.role },
+    user: { id: session.sub, name: session.name, email: session.email, role: session.role },
   });
 }

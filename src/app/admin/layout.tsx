@@ -12,7 +12,7 @@ const NAV: { section: string; items: { label: string; href: string; icon: keyof 
     items: [
       { label: "Pages", href: "/admin/pages", icon: "pages" },
       { label: "Media Library", href: "/admin/media", icon: "media" },
-      { label: "CRM", href: "/admin/crm", icon: "crm" },
+      { label: "Clients", href: "/admin/crm", icon: "crm" },
       { label: "Analytics", href: "/admin/analytics", icon: "analytics" },
       { label: "SEO / AEO / GEO", href: "/admin/seo", icon: "seo" },
     ],
@@ -86,7 +86,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   const isActive = (href: string) => (href === "/admin" ? pathname === "/admin" : pathname.startsWith(href));
 
   return (
-    <div className="flex min-h-screen bg-brand-dark text-white/90">
+    <div className="flex min-h-screen bg-admin-surface text-slate-800">
       {mobileOpen && (
         <div className="fixed inset-0 z-30 bg-black/60 lg:hidden" onClick={() => setMobileOpen(false)} />
       )}
@@ -96,7 +96,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
           mobileOpen ? "translate-x-0" : "-translate-x-[130%]"
         }`}
       >
-        <div className="flex items-center border-b border-white/10 px-6 py-5">
+        <div className="flex items-center justify-center border-b border-white/10 px-6 py-5">
           <Link href="/admin" className="flex items-center gap-2">
             <Image src="/assetfinder-logo.png" alt="AssetFinder" width={140} height={32} className="h-6 w-auto" priority unoptimized />
           </Link>
@@ -166,11 +166,11 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
       </aside>
 
       <div className="min-w-0 flex-1 lg:ml-[236px]">
-        <header className="sticky top-4 z-20 mx-4 mt-4 flex h-16 items-center justify-between rounded-2xl border border-white/10 bg-brand-dark-2 px-5 shadow-[0_8px_30px_rgba(0,0,0,0.3)] sm:mx-6 sm:px-7">
+        <header className="sticky top-4 z-20 mx-4 mt-4 flex h-16 items-center justify-between rounded-2xl border border-slate-200/80 bg-white px-5 shadow-[0_8px_30px_rgba(15,23,42,0.06)] sm:mx-6 sm:px-7">
           <div className="flex min-w-0 items-center gap-2">
             <button
               onClick={() => setMobileOpen(true)}
-              className="-ml-1 flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-xl text-white/60 hover:bg-white/8 lg:hidden"
+              className="-ml-1 flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-xl text-slate-500 hover:bg-slate-100 lg:hidden"
               aria-label="Open menu"
             >
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
@@ -178,18 +178,18 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
               </svg>
             </button>
             <div className="min-w-0">
-              <p className="truncate text-[15px] font-bold leading-tight text-white">
+              <p className="truncate text-[15px] font-bold leading-tight text-slate-900">
                 {hello}, {firstName}
               </p>
-              <p className="truncate text-[11.5px] text-white/40">{today}</p>
+              <p className="truncate text-[11.5px] text-slate-400">{today}</p>
             </div>
           </div>
           <div className="flex items-center gap-2 sm:gap-3">
-            <div className="hidden items-center gap-2 rounded-xl border border-white/10 bg-brand-dark px-3 py-2 text-white/40 sm:flex">
+            <div className="hidden items-center gap-2 rounded-xl border border-slate-200 bg-slate-50 px-3 py-2 text-slate-400 sm:flex">
               <Icons.search size={16} />
               <span className="text-[12.5px]">Search…</span>
             </div>
-            <button className="relative flex h-10 w-10 items-center justify-center rounded-xl text-white/60 hover:bg-white/8" aria-label="Notifications">
+            <button className="relative flex h-10 w-10 items-center justify-center rounded-xl text-slate-500 hover:bg-slate-100" aria-label="Notifications">
               <Icons.bell size={18} />
             </button>
             <div className="flex items-center gap-2.5 pl-1">
@@ -200,8 +200,8 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                 {initials || "?"}
               </span>
               <div className="hidden leading-tight md:block">
-                <p className="text-[12.5px] font-semibold text-white">{me.name}</p>
-                <p className="text-[10.5px] text-white/40">{roleLabel}</p>
+                <p className="text-[12.5px] font-semibold text-slate-800">{me.name}</p>
+                <p className="text-[10.5px] text-slate-400">{roleLabel}</p>
               </div>
             </div>
           </div>

@@ -27,7 +27,7 @@ export default async function AdminDashboard() {
   const stats: { label: string; value: number; icon: keyof typeof Icons; href: string }[] = [
     { label: "Pages", value: pageCount, icon: "pages", href: "/admin/pages" },
     { label: "Media Assets", value: mediaCount, icon: "media", href: "/admin/media" },
-    { label: "CRM Contacts", value: crmCount, icon: "crm", href: "/admin/crm" },
+    { label: "Contacts", value: crmCount, icon: "crm", href: "/admin/crm" },
     { label: "Views (7d)", value: pageViews7d, icon: "analytics", href: "/admin/analytics" },
   ];
 
@@ -48,12 +48,12 @@ export default async function AdminDashboard() {
           const Icon = Icons[s.icon];
           return (
             <Link key={s.href} href={s.href}>
-              <Card className="p-5 transition hover:border-white/20">
+              <Card className="p-5 transition hover:border-slate-300">
                 <div className="flex items-center justify-between">
-                  <p className="text-[12px] font-semibold text-white/50">{s.label}</p>
-                  <Icon size={16} className="text-white/30" />
+                  <p className="text-[12px] font-semibold text-slate-500">{s.label}</p>
+                  <Icon size={16} className="text-slate-300" />
                 </div>
-                <p className="mt-3 text-2xl font-bold text-white">{s.value.toLocaleString()}</p>
+                <p className="mt-3 text-2xl font-bold text-slate-900">{s.value.toLocaleString()}</p>
               </Card>
             </Link>
           );
@@ -62,21 +62,21 @@ export default async function AdminDashboard() {
 
       <div className="mt-6 grid grid-cols-1 gap-4 lg:grid-cols-3">
         <Card className="p-5 lg:col-span-2">
-          <p className="text-[13px] font-semibold text-white">Recent Activity</p>
+          <p className="text-[13px] font-semibold text-slate-900">Recent Activity</p>
           {recentActivity.length === 0 ? (
-            <p className="mt-4 text-[13px] text-white/40">No activity yet.</p>
+            <p className="mt-4 text-[13px] text-slate-400">No activity yet.</p>
           ) : (
             <ul className="mt-4 flex flex-col gap-3">
               {recentActivity.map((a) => (
-                <li key={a.id} className="flex items-start gap-3 border-b border-white/5 pb-3 last:border-0 last:pb-0">
+                <li key={a.id} className="flex items-start gap-3 border-b border-slate-100 pb-3 last:border-0 last:pb-0">
                   <span className="mt-1 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-brand-lime" />
                   <div className="min-w-0">
-                    <p className="text-[13px] text-white/80">
+                    <p className="text-[13px] text-slate-700">
                       <span className="font-semibold">{a.user?.name ?? "System"}</span>{" "}
                       {a.action}
                       {a.entity ? ` — ${a.entity}` : ""}
                     </p>
-                    <p className="text-[11px] text-white/35">
+                    <p className="text-[11px] text-slate-400">
                       {a.createdAt.toLocaleString("en-AU", { dateStyle: "medium", timeStyle: "short" })}
                     </p>
                   </div>
@@ -87,7 +87,7 @@ export default async function AdminDashboard() {
         </Card>
 
         <Card className="p-5">
-          <p className="text-[13px] font-semibold text-white">Quick Links</p>
+          <p className="text-[13px] font-semibold text-slate-900">Quick Links</p>
           <div className="mt-4 flex flex-col gap-1">
             {[
               { label: "New Page", href: "/admin/pages", icon: "pages" as const },
@@ -100,7 +100,7 @@ export default async function AdminDashboard() {
                 <Link
                   key={l.href}
                   href={l.href}
-                  className="flex items-center gap-2.5 rounded-xl px-2.5 py-2.5 text-[13px] font-medium text-white/70 transition hover:bg-white/8 hover:text-white"
+                  className="flex items-center gap-2.5 rounded-xl px-2.5 py-2.5 text-[13px] font-medium text-slate-600 transition hover:bg-slate-100 hover:text-slate-900"
                 >
                   <Icon size={16} /> {l.label}
                 </Link>

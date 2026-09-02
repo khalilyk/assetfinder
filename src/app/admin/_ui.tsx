@@ -111,6 +111,12 @@ export const Icons = {
       <circle cx="12" cy="12" r="2.6" />
     </>,
   ),
+  refresh: wrap(
+    <>
+      <path d="M3 12a9 9 0 109-9 9 9 0 00-6.7 3" />
+      <path d="M3 3v6h6" />
+    </>,
+  ),
   upload: wrap(
     <>
       <path d="M12 16V4M8 8l4-4 4 4" />
@@ -141,7 +147,7 @@ export const Icons = {
 export function Card({ children, className = "", ...rest }: React.HTMLAttributes<HTMLDivElement>) {
   return (
     <div
-      className={`rounded-2xl border border-white/10 bg-brand-dark-2 ${className}`}
+      className={`rounded-2xl border border-slate-200 bg-white shadow-[0_1px_2px_rgba(15,23,42,0.04)] ${className}`}
       {...rest}
     >
       {children}
@@ -157,12 +163,12 @@ export function Badge({
   tone?: "green" | "amber" | "slate" | "blue" | "red" | "purple";
 }) {
   const tones: Record<string, string> = {
-    green: "bg-brand-lime/10 text-brand-lime",
-    amber: "bg-brand-orange/10 text-brand-orange",
-    slate: "bg-white/8 text-white/60",
-    blue: "bg-sky-500/10 text-sky-400",
-    red: "bg-rose-500/10 text-rose-400",
-    purple: "bg-violet-500/10 text-violet-400",
+    green: "bg-lime-50 text-lime-700",
+    amber: "bg-amber-50 text-amber-700",
+    slate: "bg-slate-100 text-slate-500",
+    blue: "bg-sky-50 text-sky-700",
+    red: "bg-rose-50 text-rose-700",
+    purple: "bg-violet-50 text-violet-700",
   };
   return (
     <span
@@ -181,8 +187,8 @@ export function Btn({
 }: { variant?: "primary" | "ghost" | "outline" } & React.ButtonHTMLAttributes<HTMLButtonElement>) {
   const styles: Record<string, string> = {
     primary: "bg-brand-lime text-brand-dark hover:bg-brand-lime-dark",
-    ghost: "text-white/70 hover:bg-white/8 hover:text-white",
-    outline: "text-white/80 border border-white/15 hover:bg-white/8",
+    ghost: "text-slate-600 hover:bg-slate-100 hover:text-slate-900",
+    outline: "text-slate-700 border border-slate-200 hover:bg-slate-50",
   };
   return (
     <button
@@ -206,8 +212,8 @@ export function PageHeader({
   return (
     <div className="mb-7 flex items-start justify-between gap-4">
       <div>
-        <h1 className="text-[22px] font-bold tracking-tight text-white">{title}</h1>
-        {subtitle && <p className="mt-1 text-[13px] text-white/50">{subtitle}</p>}
+        <h1 className="text-[22px] font-bold tracking-tight text-slate-900">{title}</h1>
+        {subtitle && <p className="mt-1 text-[13px] text-slate-500">{subtitle}</p>}
       </div>
       {action}
     </div>
