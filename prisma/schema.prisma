@@ -1,0 +1,199 @@
+// AssetFinder admin data model.
+// Learn more about Prisma: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("POSTGRES_URL_NON_POOLING")
+}
+
+enum AdminRole {
+  SUPER_ADMIN
+  ADMIN
+  EDITOR
+}
+
+model AdminUser {
+  id           String    @id @default(cuid())
+  email        String    @unique
+  passwordHash String
+  name         String
+  role         AdminRole @default(EDITOR)
+  avatarUrl    String?
+  lastLoginAt  DateTime?
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+
+  activityLogs ActivityLog[]
+
+  @@map("admin_users")
+}
+
+model ActivityLog {
+  id        String   @id @default(cuid())
+  userId    String?
+  user      AdminUser? @relation(fields: [userId], references: [id], onDelete: SetNull)
+  action    String
+  entity    String?
+  entityId  String?
+  detail    String?
+  createdAt DateTime @default(now())
+
+  @@index([userId])
+  @@index([createdAt])
+  @@map("activity_logs")
+}
+
+model Page {
+  id          String   @id @default(cuid())
+  slug        String   @unique
+  title       String
+  // Ordered array of section blocks: [{ type, id, fields: {...} }, ...]
+  sections    Json     @default("[]")
+  published   Boolean  @default(true)
+  seo         Seo?
+  updatedById String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@map("pages")
+}
+
+model Seo {
+  id            String   @id @default(cuid())
+  page          Page     @relation(fields: [pageId], references: [id], onDelete: Cascade)
+  pageId        String   @unique
+
+  // Classic SEO
+  metaTitle       String?
+  metaDescription String?
+  keywords        String?
+  canonicalUrl    String?
+  ogImageUrl      String?
+  noindex         Boolean  @default(false)
+
+  // AEO (Answer Engine Optimization) — direct-answer content for
+  // featured snippets / voice assistants.
+  primaryQuestion String?
+  directAnswer    String?
+  faqJson         Json?    // [{ question, answer }, ...]
+
+  // GEO (Generative Engine Optimization) — structured facts and
+  // citation-friendly summary for LLM answer engines (ChatGPT, Perplexity,
+  // Google AI Overviews).
+  aiSummary       String?
+  keyFacts        Json?    // [{ label, value }, ...]
+  structuredData  Json?    // raw JSON-LD to inject
+
+  updatedAt     DateTime @updatedAt
+
+  @@map("seo")
+}
+
+enum MediaType {
+  IMAGE
+  VIDEO
+  DOCUMENT
+  OTHER
+}
+
+model MediaAsset {
+  id           String    @id @default(cuid())
+  url          String
+  pathname     String
+  filename     String
+  type         MediaType @default(IMAGE)
+  contentType  String?
+  size         Int?
+  width        Int?
+  height       Int?
+  alt          String?
+  folder       String?
+  uploadedById String?
+  createdAt    DateTime  @default(now())
+
+  @@index([folder])
+  @@map("media_assets")
+}
+
+enum CrmStatus {
+  LEAD
+  QUALIFIED
+  DEMO_BOOKED
+  CUSTOMER
+  CHURNED
+  ARCHIVED
+}
+
+model CrmContact {
+  id          String      @id @default(cuid())
+  name        String
+  company     String?
+  email       String?
+  phone       String?
+  role        String?
+  status      CrmStatus   @default(LEAD)
+  source      String?
+  notes       String?
+  tags        String[]    @default([])
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+
+  activities  CrmActivity[]
+
+  @@index([status])
+  @@map("crm_contacts")
+}
+
+model CrmActivity {
+  id        String     @id @default(cuid())
+  contact   CrmContact @relation(fields: [contactId], references: [id], onDelete: Cascade)
+  contactId String
+  type      String     // note, call, email, meeting, status_change
+  content   String?
+  createdAt DateTime   @default(now())
+
+  @@index([contactId])
+  @@map("crm_activities")
+}
+
+model FormSubmission {
+  id        String   @id @default(cuid())
+  formName  String   @default("contact")
+  data      Json
+  email     String?
+  read      Boolean  @default(false)
+  spam      Boolean  @default(false)
+  createdAt DateTime @default(now())
+
+  @@map("form_submissions")
+}
+
+model PageView {
+  id        String   @id @default(cuid())
+  path      String
+  referrer  String?
+  country   String?
+  city      String?
+  device    String?
+  userAgent String?
+  sessionId String?
+  createdAt DateTime @default(now())
+
+  @@index([path])
+  @@index([createdAt])
+  @@map("page_views")
+}
+
+model Setting {
+  key       String   @id
+  value     Json
+  updatedAt DateTime @updatedAt
+
+  @@map("settings")
+}
