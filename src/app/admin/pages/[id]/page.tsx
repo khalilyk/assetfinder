@@ -1,7 +1,7 @@
 "use client";
 
 import { use, useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { Card, PageHeader, Btn, Icons } from "../../_ui";
 
@@ -44,7 +44,8 @@ function newId() {
 export default function PageEditor({ params }: { params: Promise<{ id: string }> }) {
   const { id } = use(params);
   const router = useRouter();
-  const [tab, setTab] = useState<"content" | "seo">("content");
+  const searchParams = useSearchParams();
+  const [tab, setTab] = useState<"content" | "seo">(searchParams.get("tab") === "seo" ? "seo" : "content");
 
   const [title, setTitle] = useState("");
   const [slug, setSlug] = useState("");
