@@ -25,6 +25,11 @@ model AdminUser {
   name         String
   role         AdminRole @default(EDITOR)
   avatarUrl    String?
+  title        String?
+  phone        String?
+  linkedinUrl  String?
+  bio          String?
+  cardSlug     String?   @unique
   lastLoginAt  DateTime?
   createdAt    DateTime  @default(now())
   updatedAt    DateTime  @updatedAt
